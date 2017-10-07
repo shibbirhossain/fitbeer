@@ -2,9 +2,11 @@ from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter, SimpleRouter
 from . import views
 
-router = DefaultRouter()
 #router.register('appusers', views.CustomerProfileChangeAPIView, "profile")
 #router.register('appuser/password', views.ChangeAppUserPasswordView)
+router = DefaultRouter()
+#router.register('profile', views.UserProfileViewSet)
+router.register('appuser', views.AppuserViewset)
 
 urlpatterns = [
 
@@ -21,5 +23,6 @@ urlpatterns = [
     url(r'', include(router.urls)),
     url(r'^products/', views.ProductsAPIView.as_view()),
     url(r'^barcodes/', views.BarcodeScanAPIView.as_view()),
+    url(r'^ratings/', views.RatingAPIView.as_view()),
     #url(r'^test/', views.UnlikePhotoView.as_view()),
 ]

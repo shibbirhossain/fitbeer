@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-
+from fitbeer import db_config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -77,10 +77,15 @@ WSGI_APPLICATION = 'fitbeer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': db_config.ENGINE,
+        'NAME': db_config.NAME,
+        'USER': db_config.USER,
+        'PASSWORD': db_config.PASSWORD,
+        'HOST': db_config.HOST,
+        'PORT': db_config.PORT,
     }
 }
+
 
 
 # Password validation

@@ -1,13 +1,14 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.generics import UpdateAPIView, GenericAPIView
 from rest_framework.response import Response
 from datetime import datetime
-from product.models import Product, Barcode_Scan
+from product.models import Product, Barcode_Scan, Rating, Appuser
 from . import serializers
-from . util import generate_scan_id
+from . util import generate_scan_id, generate_rating_id
+
 """
     @author shibbir
     this is a gneric api view to get beers 
@@ -96,6 +97,82 @@ class BarcodeScanAPIView(GenericAPIView):
             except Exception as e:
                 return Response({'data': e})
 
+class RatingAPIView(GenericAPIView):
+    serializer_class = serializers.RatingSerializer
+
+    def get(self, request, format=None):
+        ratings = Rating.scan()
+        ratings_json = []
+        for rating in ratings:
+            rating_json = {
+                "user_id": rating.user_id,
+                "product_id": rating.product_id,
+                "rating": rating.rating
+                }
+            ratings_json.append(rating_json)
+            # json_resp = '"beer_id" : "1012234", "beer_name" : "pure blond", "calorie" : "56"'
+            print(ratings_json)
+        return Response({"data": ratings_json})
+
+    def post(self, request):
+        serializer = serializers.RatingSerializer(data=request.data)
+        if (serializer.is_valid()):
+            user_id = serializer.data.get('user_id')
+            product_id = serializer.data.get('product_id')
+            rating = serializer.data.get('rating')
+            message = "{} {} {} ".format(user_id, product_id, rating)
+            print(message)
+            rating_id = generate_rating_id(user_id)
+            try:
+                post_rating = Rating(
+                    rating_id,
+                    user_id=int(user_id),
+                    product_id=product_id,
+                    rating=rating,
+                    date_created=datetime.now()
+                    )
+                post_rating.save()
+
+                return Response({'data': message + " added successfully"})
+            except Exception as e:
+                return Response({'data': str(e)})
+        else:
+            return Response({'data': 'there is some error'})
+
+class AppuserViewset(viewsets.ModelViewSet):
+    serializer_class = serializers.AppuserSerializer
+    queryset = Appuser.objects.all()
+
+            # def list(self, request):
+            #     queryset = Camera.objects.all()
+            #     serializer = CameraSerializer(queryset, many=True)
+            #     return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+
+        try:
+            camera = Appuser.objects.get(pk=pk)
+            camera.delete()
+
+            serializer_class = serializers.AppuserSerializer
+
+            return Response({
+                'status': True,
+                'data':
+                    {
+                        'result': 'deleted successfully',
+                        'HTTP_Status': status.HTTP_204_NO_CONTENT
+                    }
+            })
+        except Appuser.DoesNotExist:
+            return Response({
+                'status': False,
+                'data':
+                    {
+                        'result': 'appuser id does not exist',
+                        'HTTP_Status': status.HTTP_404_NOT_FOUND
+                    }
+            })
 
 # """
 #     @author shibbir
