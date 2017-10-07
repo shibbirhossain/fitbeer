@@ -20,9 +20,17 @@ class ProductsAPIView(GenericAPIView):
 
     def get(self, request, format=None):
         beers = Product.scan()
-        #for beer
-        json_resp = '"beer_id" : "1012234", "beer_name" : "pure blond", "calorie" : "56"'
-        return Response({ json_resp})
+        beers_json = []
+        for beer in beers:
+            beer_json = {
+                "beer_id" : beer.beer_id,
+                "beer_name" : beer.beer_name,
+                "calorie" : beer.calorie
+            }
+            beers_json.append(beer_json)
+        #json_resp = '"beer_id" : "1012234", "beer_name" : "pure blond", "calorie" : "56"'
+        print(beers_json)
+        return Response({ "data" : beers_json })
 
     def post(self, request):
         serializer = serializers.ProductSerializer(data=request.data)
