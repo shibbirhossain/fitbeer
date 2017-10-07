@@ -122,12 +122,11 @@ class RatingAPIView(GenericAPIView):
             rating = serializer.data.get('rating')
             message = "{} {} {} ".format(user_id, product_id, rating)
             print(message)
-            rating_id = generate_rating_id(user_id)
+            #rating_id = generate_rating_id(user_id)
             try:
                 post_rating = Rating(
-                    rating_id,
-                    user_id=int(user_id),
-                    product_id=product_id,
+                    product_id,
+                    user_id=user_id,
                     rating=rating,
                     date_created=datetime.now()
                     )
@@ -137,17 +136,11 @@ class RatingAPIView(GenericAPIView):
             except Exception as e:
                 return Response({'data': str(e)})
         else:
-            return Response({'data': 'there is some error'})
+            return Response({'data': 'there is some error {}'.format(serializer.errors)})
 
 class AppuserViewset(viewsets.ModelViewSet):
     serializer_class = serializers.AppuserSerializer
     queryset = Appuser.objects.all()
-
-            # def list(self, request):
-            #     queryset = Camera.objects.all()
-            #     serializer = CameraSerializer(queryset, many=True)
-            #     return Response(serializer.data)
-
     def destroy(self, request, pk=None):
 
         try:
@@ -173,36 +166,18 @@ class AppuserViewset(viewsets.ModelViewSet):
                         'HTTP_Status': status.HTTP_404_NOT_FOUND
                     }
             })
-
+#
 # """
 #     @author shibbir
-#     unlike user/business photos
-#     the User ID, and Photo ID is passed on along to unlike the photo
+#     the app user passes the product api while calling the API
+#     and get the product details in response
+#     return includes {
+#         Product name
+#         rating - total rating count, avg
+#         myrating personal rating
+#         price
+#         calorie
+#     }
 # """
-# class UnlikePhotoView(GenericAPIView):
-#
-#     serializer_class = serializers.LikePhotoSerializer
-#     # def get(self, request, format=None):
-#     #     return Response({'status': True, 'data': { 'photos_likes': "you unlike the photos here"}})
-#
-#     def post(self, request):
-#         serializer = serializers.LikePhotoSerializer(data=request.data)
-#         if serializer.is_valid():
-#             user_id = serializer.data.get('user_id')
-#             photo_id = serializer.data.get('photo_id')
-#
-#             message = "{} {} photo unliked successfully".format(user_id, photo_id)
-#             print(message)
-#             try:
-#                 photoobject = RawPhoto.query(photo_id)
-#                 for photo in photoobject:
-#                     print(photo.photo_id)
-#                     print(photo.date_created)
-#
-#                 return Response({'message': message})
-#             except RawPhoto.DoesNotExist:
-#                 print("photo id does not exist")
-#                 return Response("no photo exists with the photo id", status=status.HTTP_404_NOT_FOUND)
-#         else:
-#             return Response('there is something wrong', status=status.HTTP_400_BAD_REQUEST)
-#
+# class ProductsDetailsByProductIDAPIView(GenericAPIView):
+#     pass

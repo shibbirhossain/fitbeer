@@ -61,17 +61,16 @@ class Rating(Model):
         host = 'https://dynamodb.ap-southeast-2.amazonaws.com'
         write_capacity_units = 1
         read_capacity_units = 1
-    rating_id = UnicodeAttribute(hash_key=True)
-    user_id = NumberAttribute()
-    view_index = UserIDIndex()
-    user_id = NumberAttribute(default=0)
-    product_id = UnicodeAttribute()
-    rating = NumberAttribute()
-    date_created = UTCDateTimeAttribute(range_key=True)
+    product_id = UnicodeAttribute(hash_key=True)
+    user_id = UnicodeAttribute(range_key=True)
+    #view_index = UserIDIndex()
+    #user_id = NumberAttribute(default=0)
+    rating = UnicodeAttribute()
+    date_created = UTCDateTimeAttribute()
 
 
-# if not Rating.exists():
-#     Rating.create_table(wait=True)
+if not Rating.exists():
+    Rating.create_table(wait=True)
 class Appuser(models.Model):
     GENDER_CHOICES = (
         ('M', 'Male'),
@@ -130,36 +129,3 @@ class Appuser(models.Model):
     education = models.IntegerField(default=0, choices=EDUCATION)
     create_date = models.DateTimeField(auto_now_add=True)
 
-#
-# class UserIDIndex(GlobalSecondaryIndex):
-#
-#     class Meta:
-#         index_name = "user_id"
-#         read_capacity_units = 2
-#         write_capacity_units = 1
-#
-#         projection = AllProjection()
-#
-#     user_id = NumberAttribute(default=0, hash_key=True)
-#
-#
-# class RawPhoto(Model):
-#     class Meta:
-#         table_name = 'raw_photo'
-#         region = 'ap-southeast-2'
-#         host = 'https://dynamodb.ap-southeast-2.amazonaws.com'
-#         write_capacity_units = 2
-#         read_capacity_units = 2
-#
-#     photo_id = UnicodeAttribute(hash_key=True)
-#     user_id = NumberAttribute()
-#     view_index = UserIDIndex()
-#     user_id = NumberAttribute(default=0)
-#     restaurant_id = NumberAttribute(default=0)
-#     #caption_text = UnicodeAttribute()
-#     #photo_path = UnicodeAttribute()
-#     #hashtags = UnicodeSetAttribute()
-#     #is_posted = NumberAttribute()
-#     #is_deleted = NumberAttribute(default=0)
-#     #date_updated = UTCDateTimeAttribute()
-#     date_created = UTCDateTimeAttribute(range_key=True)

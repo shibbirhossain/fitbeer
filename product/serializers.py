@@ -72,12 +72,12 @@ class BarcodeScanSerializer(serializers.Serializer):
 class RatingSerializer(serializers.Serializer):
     user_id = serializers.CharField(max_length=20)
     product_id = serializers.CharField(max_length=20)
-    rating = serializers.IntegerField(default=0)
+    rating = serializers.DecimalField(default=0.0, max_digits=3,decimal_places=2)
 
     def validate_rating(self, rating):
-        if rating  > 5:
+        if rating  > 5.0:
             raise ValidationError('rating should be less than 5')
-            return 0
+            return 0.0
         else:
             return rating
     def validate(self, data):
@@ -104,4 +104,18 @@ class AppuserSerializer(serializers.ModelSerializer):
     # political = serializers.IntegerField()
     # relation = serializers.IntegerField()
     # education = serializers.IntegerField()
+
+
+"""
+    @author shibbir
+    get the product details by product id
+"""
+class ProductDetailsSerializer(serializers.Serializer):
+    product_id = serializers.CharField(max_length=255)
+    latitude = serializers.CharField(max_length=20)
+    longitude = serializers.CharField(max_length=20)
+    user_id = serializers.CharField(max_length=20)
+
+    def validate(self, data):
+        return data
 
