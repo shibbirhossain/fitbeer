@@ -21,18 +21,18 @@ from rest_framework import serializers
 
 
 
-"""
-this is serializer for liking picture
-"""
-class LikePhotoSerializer(serializers.Serializer):
-
-    photo_id = serializers.CharField(max_length=255)
-    user_id = serializers.IntegerField()
-
-
-    def validate(self, data):
-        """will handle the logical validation here """
-        return data
+# """
+# this is serializer for liking picture
+# """
+# class LikePhotoSerializer(serializers.Serializer):
+#
+#     photo_id = serializers.CharField(max_length=255)
+#     user_id = serializers.IntegerField()
+#
+#
+#     def validate(self, data):
+#         """will handle the logical validation here """
+#         return data
 
 
 """
