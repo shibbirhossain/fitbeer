@@ -19,8 +19,10 @@ class ProductsAPIView(GenericAPIView):
     serializer_class = serializers.ProductSerializer
 
     def get(self, request, format=None):
-
-        return Response({'status': True, 'data': { 'beers': "we add the beers here"}})
+        beers = Product.scan()
+        #for beer
+        json_resp = '"beer_id" : "1012234", "beer_name" : "pure blond", "calorie" : "56"'
+        return Response({ json_resp})
 
     def post(self, request):
         serializer = serializers.ProductSerializer(data=request.data)
