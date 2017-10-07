@@ -46,3 +46,21 @@ class ProductSerializer(serializers.Serializer):
 
     def validate(self, data):
         return data
+"""
+    @author shibbir
+    this is barcode scan serializer
+    prod_id
+    lat
+    lon 
+    user_id
+    date
+"""
+class BarcodeScanSerializer(serializers.Serializer):
+    product_id = serializers.CharField(max_length=255)
+    latitude = serializers.CharField(max_length=20)
+    longitude = serializers.CharField(max_length=20)
+    user_id = serializers.CharField(max_length=20)
+
+    def validate(self, data):
+        return data
+

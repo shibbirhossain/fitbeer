@@ -20,5 +20,6 @@ urlpatterns = [
     # url(r'^appusers/(?P<user_id>.*)/photos/posted/', views.PostedPhotosByUsersView.as_view()),
     url(r'', include(router.urls)),
     url(r'^products/', views.ProductsAPIView.as_view()),
+    url(r'^barcodes/', views.BarcodeScanAPIView.as_view()),
     #url(r'^test/', views.UnlikePhotoView.as_view()),
 ]

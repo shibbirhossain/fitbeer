@@ -5,9 +5,9 @@ from rest_framework import status
 from rest_framework.generics import UpdateAPIView, GenericAPIView
 from rest_framework.response import Response
 from datetime import datetime
-from product.models import Product
+from product.models import Product, Barcode_Scan
 from . import serializers
-
+from . util import generate_scan_id
 """
     @author shibbir
     this is a gneric api view to get beers 
@@ -52,6 +52,48 @@ class ProductsAPIView(GenericAPIView):
 
                 return Response({'data' : message + " added successfully"})
             except Exception as e :
+                return Response({'data': e})
+
+class BarcodeScanAPIView(GenericAPIView):
+    serializer_class = serializers.BarcodeScanSerializer
+    def get(self, request, format=None):
+        barcode_invokes_from_db = Barcode_Scan.scan()
+        barcode_invokes_json = []
+        for barcode_invoke in barcode_invokes_from_db:
+            barcode_invoke_json = {
+                "product_id": barcode_invoke.product_id,
+                "latitude": barcode_invoke.latitude,
+                "longitude": barcode_invoke.longitude,
+                "user_id": barcode_invoke.user_id
+            }
+            barcode_invokes_json.append(barcode_invoke_json)
+        # json_resp = '"beer_id" : "1012234", "beer_name" : "pure blond", "calorie" : "56"'
+        print(barcode_invokes_json)
+        return Response({"data": barcode_invokes_json})
+
+    def post(self, request):
+        serializer = serializers.BarcodeScanSerializer(data=request.data)
+        if (serializer.is_valid()):
+            product_id = serializer.data.get('product_id')
+            latitude = serializer.data.get('latitude')
+            longitude = serializer.data.get('longitude')
+            user_id = serializer.data.get('user_id')
+            message = "{} {} {} ".format(product_id, latitude, longitude, user_id)
+            print(message)
+            try:
+                scan_id = generate_scan_id(user_id)
+                post_barcode_scan = Barcode_Scan(
+                    scan_id,
+                    product_id=product_id,
+                    latitude=latitude,
+                    longitude=longitude,
+                    user_id=user_id,
+                    date_created=datetime.now()
+                )
+                post_barcode_scan.save()
+
+                return Response({'data': message + " added successfully"})
+            except Exception as e:
                 return Response({'data': e})
 
 
