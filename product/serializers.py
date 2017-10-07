@@ -44,7 +44,7 @@ class ProductSerializer(serializers.Serializer):
     beer_id = serializers.CharField(max_length=255)
     beer_name = serializers.CharField(max_length=255)
     calorie = serializers.IntegerField()
-
+    price = serializers.DecimalField(default=0.0, max_digits=3,decimal_places=2)
     def validate(self, data):
         return data
 """

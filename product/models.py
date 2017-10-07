@@ -20,6 +20,7 @@ class Product(Model):
     beer_id = UnicodeAttribute(hash_key=True)
     beer_name = UnicodeAttribute()
     calorie = NumberAttribute(default=0)
+    price = UnicodeAttribute(default=5)
     date_created = UTCDateTimeAttribute()
 
 

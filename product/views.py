@@ -26,7 +26,8 @@ class ProductsAPIView(GenericAPIView):
             beer_json = {
                 "beer_id" : beer.beer_id,
                 "beer_name" : beer.beer_name,
-                "calorie" : beer.calorie
+                "calorie" : beer.calorie,
+                "price" : beer.price
             }
             beers_json.append(beer_json)
         #json_resp = '"beer_id" : "1012234", "beer_name" : "pure blond", "calorie" : "56"'
@@ -39,7 +40,8 @@ class ProductsAPIView(GenericAPIView):
             beer_id = serializer.data.get('beer_id')
             beer_name = serializer.data.get('beer_name')
             calorie = serializer.data.get('calorie')
-            message = "{} {} {} ".format(beer_id, beer_name, calorie)
+            price = serializer.data.get('price')
+            message = "{} {} {} {} ".format(beer_id, beer_name, calorie, price)
             print(message)
             try:
 
@@ -47,13 +49,14 @@ class ProductsAPIView(GenericAPIView):
                     beer_id,
                     beer_name=beer_name,
                     calorie=calorie,
+                    price=price,
                     date_created=datetime.now()
                 )
                 post_beer.save()
 
                 return Response({'data' : message + " added successfully"})
             except Exception as e :
-                return Response({'data': e})
+                return Response({'data': str(e)})
 
 class BarcodeScanAPIView(GenericAPIView):
     serializer_class = serializers.BarcodeScanSerializer
