@@ -22,7 +22,7 @@ def generate_rating_id(user_id):
 
 def generate_random_arrayfill():
     random_number_list = []
-    for i in range(0,2500):
+    for i in range(0,2513):
         random_number = generate_random_number(0, 2000)
         rand_json = {
             i : random_number
