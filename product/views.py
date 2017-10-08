@@ -1,3 +1,4 @@
+from django.core.serializers import json
 from django.shortcuts import render
 
 # Create your views here.
@@ -7,10 +8,11 @@ from rest_framework.response import Response
 from datetime import datetime
 from product.models import Product, Barcode_Scan, Rating, Appuser
 from . import serializers
-from . util import generate_scan_id, generate_rating_id
+from . util import generate_scan_id, generate_random_arrayfill
 
 """
     @author shibbir
+    email shibbirhssn@gmail.com
     this is a gneric api view to get beers 
     will add add beers later
 
@@ -184,3 +186,10 @@ class AppuserViewset(viewsets.ModelViewSet):
 # """
 # class ProductsDetailsByProductIDAPIView(GenericAPIView):
 #     pass
+
+class RandomDataAPIView(GenericAPIView):
+    def get(self, request, format=None):
+
+        data = generate_random_arrayfill()
+        print(data)
+        return Response({"data":  data})

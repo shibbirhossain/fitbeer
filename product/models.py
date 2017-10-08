@@ -6,8 +6,8 @@ from pynamodb.attributes import (
 from pynamodb.indexes import GlobalSecondaryIndex, AllProjection, LocalSecondaryIndex
 
 # Create your models here.
-
-
+# @author shibbir
+# shibbirhssn@gmail.com
 
 class Product(Model):
     class Meta:
@@ -64,8 +64,6 @@ class Rating(Model):
         read_capacity_units = 1
     product_id = UnicodeAttribute(hash_key=True)
     user_id = UnicodeAttribute(range_key=True)
-    #view_index = UserIDIndex()
-    #user_id = NumberAttribute(default=0)
     rating = UnicodeAttribute()
     date_created = UTCDateTimeAttribute()
 
