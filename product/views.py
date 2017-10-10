@@ -9,6 +9,7 @@ from datetime import datetime
 from product.models import Product, Barcode_Scan, Rating, Appuser
 from . import serializers
 from . util import generate_scan_id, generate_random_arrayfill
+from . util import compute_tweet
 
 """
     @author shibbir
@@ -193,3 +194,24 @@ class RandomDataAPIView(GenericAPIView):
         data = generate_random_arrayfill()
         print(data)
         return Response({"data":  data})
+
+"""
+    nltp bag of words view
+"""
+class Tweet2NLTPAPIView(GenericAPIView):
+
+    serializer_class = serializers.Tweet2NLTPSerializer
+
+    def get(self, request, format=None):
+        return Response({'data' : 'nothing to see here'})
+
+    def post(self, request):
+        serializer = serializers.Tweet2NLTPSerializer(data=request.data)
+        if (serializer.is_valid()):
+            tweet_text = serializer.data.get('tweet_text')
+            bow_list = []
+            bag_of_nltp_words = compute_tweet(tweet_text)
+            for word in bag_of_nltp_words:
+                bow_list.append(word)
+
+        return Response({'data' : bow_list})

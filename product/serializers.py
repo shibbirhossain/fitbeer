@@ -86,4 +86,15 @@ class ProductDetailsSerializer(serializers.Serializer):
 
     def validate(self, data):
         return data
+"""
+    @author shibbir
+    converting the tweet text into 
+    natural laguage processed bag of words
+    
+"""
+class Tweet2NLTPSerializer(serializers.Serializer):
 
+    tweet_text = serializers.CharField(max_length=160)
+
+    def validate(self, data):
+        return data

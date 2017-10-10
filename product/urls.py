@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^barcodes/', views.BarcodeScanAPIView.as_view()),
     url(r'^ratings/', views.RatingAPIView.as_view()),
     url(r'randtest/', views.RandomDataAPIView.as_view()),
+    url(r'nltp/', views.Tweet2NLTPAPIView.as_view()),
 ]
