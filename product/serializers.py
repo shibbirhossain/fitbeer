@@ -98,3 +98,16 @@ class Tweet2NLTPSerializer(serializers.Serializer):
 
     def validate(self, data):
         return data
+
+"""
+    @author shibbir
+    converting the DBPedia paragraph into
+    LDA processed bag of words
+"""
+
+class DBPedia2LDASerializer(serializers.Serializer):
+    paragraph = serializers.CharField(max_length=5000)
+    bow = serializers.IntegerField(max_value=20)
+    def validate(self, data):
+        return data
+

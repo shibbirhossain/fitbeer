@@ -9,7 +9,7 @@ from datetime import datetime
 from product.models import Product, Barcode_Scan, Rating, Appuser
 from . import serializers
 from . util import generate_scan_id, generate_random_arrayfill
-from . util import compute_tweet
+from . util import compute_tweet, get_topic_modelled_words
 
 """
     @author shibbir
@@ -215,3 +215,21 @@ class Tweet2NLTPAPIView(GenericAPIView):
                 bow_list.append(word)
 
         return Response({'data' : bow_list})
+
+"""
+    LDA bag of words view
+"""
+class DBPediaText2LDAAPIView(GenericAPIView):
+
+    serializer_class = serializers.DBPedia2LDASerializer
+
+    def post(self, request):
+        serializer = serializers.DBPedia2LDASerializer(data=request.data)
+        if (serializer.is_valid()):
+            dbpedia_text = serializer.data.get('paragraph')
+            bag_of_words_count = serializer.data.get('bow')
+
+            lda_bow = get_topic_modelled_words(dbpedia_text, bag_of_words_count)
+            print(lda_bow)
+
+        return Response({'data' : lda_bow})
