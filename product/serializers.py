@@ -94,7 +94,7 @@ class ProductDetailsSerializer(serializers.Serializer):
 """
 class Tweet2NLTPSerializer(serializers.Serializer):
 
-    tweet_text = serializers.CharField(max_length=160)
+    tweet_text = serializers.CharField(max_length=5000)
 
     def validate(self, data):
         return data

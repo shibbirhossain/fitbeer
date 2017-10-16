@@ -4,6 +4,7 @@ import time
 
 from django.core.serializers import json
 from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
 import string
 # Importing Gensim
@@ -54,18 +55,14 @@ def generate_random_number(start_val, end_val):
     API
 """
 def compute_tweet(sample_doc):
-    #filename = "coffee.txt"
-    #sample_doc = read_from_file(filename)
-
-    #print(sample_doc)
     doc_string = ""
     for line in sample_doc:
-        #print(line)
         doc_string += line
     # compile documents
     doc_complete = [doc_string]
 
 
+    ps = PorterStemmer()
 
     stop = set(stopwords.words('english'))
     #string.punctuation = string.punctuation.__add__('rt')
@@ -77,7 +74,7 @@ def compute_tweet(sample_doc):
     #exclude_twitter_specific_noise
     lemma = WordNetLemmatizer()
     doc_clean = [clean(doc, lemma, stop, exclude).split() for doc in doc_complete]
-    # print(type(doc_clean))
+    print(type(doc_clean))
     twitter_specific_noises = ['rt', 'tweet', 'http']
     # print(type(twitter_specific_noises))
 
@@ -111,9 +108,10 @@ def compute_tweet(sample_doc):
 
 def clean(doc, lemma, stop, exclude):
     stop_free = " ".join([i for i in doc.lower().split() if i not in stop])
-    punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
+    #punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
     #twitter_specific_noise_free = ''.join(ch for ch in punc_free if ch not in exclude_twitter_specific_noise)
-    normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split())
+    #it was punc_free, made it stop_free only now
+    normalized = " ".join(lemma.lemmatize(word) for word in stop_free.split())
     #print(type(normalized))
     return normalized
 

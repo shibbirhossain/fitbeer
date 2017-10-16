@@ -211,10 +211,11 @@ class Tweet2NLTPAPIView(GenericAPIView):
             tweet_text = serializer.data.get('tweet_text')
             bow_list = []
             bag_of_nltp_words = compute_tweet(tweet_text)
+            print("total number of words is {}".format(len(bag_of_nltp_words)))
             for word in bag_of_nltp_words:
                 bow_list.append(word)
 
-        return Response({'data' : bow_list})
+            return Response({'data' : bow_list})
 
 """
     LDA bag of words view
@@ -222,6 +223,7 @@ class Tweet2NLTPAPIView(GenericAPIView):
 class DBPediaText2LDAAPIView(GenericAPIView):
 
     serializer_class = serializers.DBPedia2LDASerializer
+
 
     def post(self, request):
         serializer = serializers.DBPedia2LDASerializer(data=request.data)
@@ -232,4 +234,4 @@ class DBPediaText2LDAAPIView(GenericAPIView):
             lda_bow = get_topic_modelled_words(dbpedia_text, bag_of_words_count)
             print(lda_bow)
 
-        return Response({'data' : lda_bow})
+            return Response({'data' : lda_bow})
