@@ -184,11 +184,12 @@ def get_topic_modelled_words(data, bag_of_words_count):
             final_word = split_by_multiply[1].replace('"', '').strip()
             print("{} {}".format(final_word, weight_value))
 
-            topic_word = {
-                "weight" : weight_value,
-                "word" : final_word
-            }
-            topic_word_list.append(topic_word)
+            # topic_word = {
+            #     "weight" : weight_value,
+            #     "word" : final_word
+            # }
+            word = final_word
+            topic_word_list.append(word)
 
         #print(weighted_word[0])
         #print(weighted_word[1])
@@ -211,14 +212,15 @@ def scrap_dbpedia_ontology(topic_name):
 
             for data in json_data:
                 if(data['lang'] == 'en'):
-                    print(data['value'])
+                    #print(data['value'])
                     abstract_text = data['value']
-                    total_word_count = sum(len(line.split()) for line in abstract_text)
-                    print("total number of words is {}".format(total_word_count))
+                    # total_word_count = sum(len(line.split()) for line in abstract_text)
+                    # print("total number of words is {}".format(total_word_count))
 
-        topic_modelled_words = get_topic_modelled_words(abstract_text, 10)
-        print(topic_modelled_words)
-        return abstract_text
+        topic_modelled_words = get_topic_modelled_words(abstract_text, 15)
+        #print(topic_modelled_words)
+        print("the topic name is {}".format(topic_name))
+        return topic_modelled_words
     except KeyError:
         print("nothing here keyerror")
         return ""
@@ -244,3 +246,23 @@ def get_abstract_text(topic_name):
     except KeyError:
         print("nothing here keyerror")
         return ""
+
+
+def pass_through_dbpedia_lda(bag_of_nltp_words, syno_list, keyword_list):
+    json_response_list = []
+    for each_word in keyword_list:
+        each_word = each_word.title()
+        lda_words = scrap_dbpedia_ontology(each_word)
+
+        matched_word = set(lda_words) & set(syno_list)
+        if(len(matched_word)):
+            print("length of this is {}".format(len(matched_word)))
+            json_response = {
+                "topic_name" : each_word,
+                "tweet_word" : matched_word
+            }
+            json_response_list.append(json_response)
+
+        #print(matched_word)
+        #print(lda_words)
+    return json_response_list

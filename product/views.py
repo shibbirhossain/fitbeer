@@ -9,7 +9,9 @@ from datetime import datetime
 from product.models import Product, Barcode_Scan, Rating, Appuser
 from . import serializers
 from . util import generate_scan_id, generate_random_arrayfill
-from . util import compute_tweet, get_topic_modelled_words, scrap_dbpedia_ontology, get_abstract_text
+from . util import compute_tweet, get_topic_modelled_words, scrap_dbpedia_ontology, get_abstract_text, pass_through_dbpedia_lda
+from nltk.corpus import wordnet
+from itertools import chain
 
 """
     @author shibbir
@@ -208,16 +210,38 @@ class Tweet2NLTPAPIView(GenericAPIView):
     def post(self, request):
         serializer = serializers.Tweet2NLTPSerializer(data=request.data)
         if (serializer.is_valid()):
+            tweet_with_syno = {}
             tweet_text = serializer.data.get('tweet_text')
+            keyword_text = serializer.data.get('keyword')
+            #print(keyword_text)
+            keyword_list = keyword_text.split(',')
+            #print(keyword_list)
             bow_list = []
             bag_of_nltp_words = compute_tweet(tweet_text)
-            #print("total number of words is {}".format(len(bag_of_nltp_words)))
-            # for word in bag_of_nltp_words:
-            #     word = word.title()
-            #     bow_list.append(word)
-            #     scrap_dbpedia_ontology(word)
+            syno_list = []
+            bag_of_nltp_words = bag_of_nltp_words[0]
+            for word in bag_of_nltp_words:
+                synonyms = wordnet.synsets(word)
+                lemmas = set(chain.from_iterable([word.lemma_names() for word in synonyms]))
+                if not lemmas:
+                    print("THE WORD TO BE REMOVED IS : {}".format(word))
+                    bag_of_nltp_words.remove(word)
+                #print(lemmas)
+                for word in lemmas:
+                    syno_list.append(word)
+                tweet_with_syno[word] = lemmas
+            bag_of_nltp_words = list(set(bag_of_nltp_words))
 
-            return Response({'data' : bag_of_nltp_words})
+            print(syno_list)
+            #print(tweet_with_syno)
+            #syno_list : is the list of all the synonyms that we will try to find match
+            #tweet_with syno : if we find match in syno_list with the words from dbpedia abstract,
+            # we get the original tweet word from tweet_with_syno list
+            try:
+                data = pass_through_dbpedia_lda(bag_of_nltp_words, syno_list, keyword_list)
+            except:
+                return Response({'data' : ""})
+            return Response({'data' : data})
 
 """
     LDA bag of words view
