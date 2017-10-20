@@ -9,7 +9,7 @@ from datetime import datetime
 from product.models import Product, Barcode_Scan, Rating, Appuser
 from . import serializers
 from . util import generate_scan_id, generate_random_arrayfill
-from . util import compute_tweet, get_topic_modelled_words
+from . util import compute_tweet, get_topic_modelled_words, scrap_dbpedia_ontology, get_abstract_text
 
 """
     @author shibbir
@@ -213,7 +213,9 @@ class Tweet2NLTPAPIView(GenericAPIView):
             bag_of_nltp_words = compute_tweet(tweet_text)
             print("total number of words is {}".format(len(bag_of_nltp_words)))
             for word in bag_of_nltp_words:
+                word = word.title()
                 bow_list.append(word)
+                scrap_dbpedia_ontology(word)
 
             return Response({'data' : bow_list})
 
@@ -235,3 +237,23 @@ class DBPediaText2LDAAPIView(GenericAPIView):
             print(lda_bow)
 
             return Response({'data' : lda_bow})
+
+
+"""
+    dbpedia abstract view
+"""
+class DBPediaAbstractView(GenericAPIView):
+
+    serializer_class = serializers.DBPediaAbstractSerializer
+
+    def post(self, request):
+        serializer = serializers.DBPediaAbstractSerializer(data=request.data)
+
+        if(serializer.is_valid()):
+            topic = serializer.data.get('topic')
+            print(topic)
+
+            abstract_text = get_abstract_text(topic)
+
+
+        return Response({'data' : abstract_text})

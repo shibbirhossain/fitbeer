@@ -10,6 +10,10 @@ import string
 # Importing Gensim
 import gensim
 from gensim import corpora
+from bs4 import BeautifulSoup
+import requests
+import json
+
 
 """
     @author shibbir
@@ -168,3 +172,53 @@ def get_topic_modelled_words(data, bag_of_words_count):
         #print(weighted_word[1])
 
     return topic_word_list
+
+def scrap_dbpedia_ontology(topic_name):
+    try:
+        url = "http://dbpedia.org/data/"+topic_name+".json"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        abstract_text = ""
+        #http://dbpedia.org/data/Fever.json
+        #print(soup)
+        if soup is not None:
+            first_level_resource_json_parse = 'http://dbpedia.org/resource/'+topic_name
+            json_data = json.loads(str(soup))
+            json_data = json_data[first_level_resource_json_parse]['http://dbpedia.org/ontology/abstract']
+            #['http://dbpedia.org/ontology/abstract']
+
+            for data in json_data:
+                if(data['lang'] == 'en'):
+                    print(data['value'])
+                    abstract_text = data['value']
+                    total_word_count = sum(len(line.split()) for line in abstract_text)
+                    print("total number of words is {}".format(total_word_count))
+
+        topic_modelled_words = get_topic_modelled_words(abstract_text, 10)
+        print(topic_modelled_words)
+        return abstract_text
+    except KeyError:
+        print("nothing here keyerror")
+        return ""
+
+def get_abstract_text(topic_name):
+    try:
+        url = "http://dbpedia.org/data/"+topic_name+".json"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        abstract_text = ""
+        if soup is not None:
+            first_level_resource_json_parse = 'http://dbpedia.org/resource/'+topic_name
+            json_data = json.loads(str(soup))
+            json_data = json_data[first_level_resource_json_parse]['http://dbpedia.org/ontology/abstract']
+            #['http://dbpedia.org/ontology/abstract']
+
+            for data in json_data:
+                if(data['lang'] == 'en'):
+                    print(data['value'])
+                    abstract_text = data['value']
+
+        return abstract_text
+    except KeyError:
+        print("nothing here keyerror")
+        return ""

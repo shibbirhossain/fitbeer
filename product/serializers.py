@@ -111,3 +111,15 @@ class DBPedia2LDASerializer(serializers.Serializer):
     def validate(self, data):
         return data
 
+
+"""
+    @author shibbir
+    get the link of dbpedia text and 
+    response back the dbpedia abatract
+"""
+class DBPediaAbstractSerializer(serializers.Serializer):
+    topic = serializers.CharField(max_length=1000)
+
+    def validate(self, data):
+        return data
+

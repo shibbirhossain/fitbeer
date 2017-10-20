@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^randtest/', views.RandomDataAPIView.as_view()),
     url(r'^nltp/', views.Tweet2NLTPAPIView.as_view()),
     url(r'^lda/', views.DBPediaText2LDAAPIView.as_view()),
+    url(r'^abstract/', views.DBPediaAbstractView.as_view()),
 ]
