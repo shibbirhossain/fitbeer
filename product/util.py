@@ -4,8 +4,10 @@ import time
 
 from django.core.serializers import json
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
+from nltk.corpus import wordnet
+from nltk.stem import PorterStemmer, SnowballStemmer
 from nltk.stem.wordnet import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
 import string
 # Importing Gensim
 import gensim
@@ -59,15 +61,35 @@ def generate_random_number(start_val, end_val):
     API
 """
 def compute_tweet(sample_doc):
+
+    print(word_tokenize(sample_doc))
+
+    # tokenized_doc = word_tokenize(sample_doc)
+    # # stemmed_word_list = []
+    # # for word in tokenized_doc:
+    # #     stemmed_word = sb.stem(word)
+    # #     stemmed_word_list.append(stemmed_word)
+    #
+    # lemmatizer = WordNetLemmatizer()
+    # lemmatized_word_list = []
+    #
+    # for word in tokenized_doc:
+    #
+    #     lemmatized_word = lemmatizer.lemmatize(word)
+    #     lemmatized_word_list.append(lemmatized_word)
+    #
+    # print(lemmatized_word_list)
     doc_string = ""
     for line in sample_doc:
         doc_string += line
-    # compile documents
+    #compile documents
     doc_complete = [doc_string]
 
-
-    ps = PorterStemmer()
-
+    #
+    #  ps = PorterStemmer()
+    #
+    # doc_complete = ps.stem(doc_complete)
+    # print(doc_complete)
     stop = set(stopwords.words('english'))
     #string.punctuation = string.punctuation.__add__('rt')
     #string.punctuation = string.punctuation.__add__('http')
@@ -78,7 +100,7 @@ def compute_tweet(sample_doc):
     #exclude_twitter_specific_noise
     lemma = WordNetLemmatizer()
     doc_clean = [clean(doc, lemma, stop, exclude).split() for doc in doc_complete]
-    print(type(doc_clean))
+    #print(type(doc_clean))
     twitter_specific_noises = ['rt', 'tweet', 'http']
     # print(type(twitter_specific_noises))
 
@@ -87,8 +109,8 @@ def compute_tweet(sample_doc):
 
     # my_list = [l[0] for l in list]
 
-    doc_clean = doc_clean[0]
-    print(doc_clean)
+    #doc_clean = doc_clean[0]
+    #print(doc_clean)
 
     # line is doc, word is word to be removed
     # for word in doc_clean:
@@ -105,17 +127,17 @@ def compute_tweet(sample_doc):
     #doc_clean.remove('rt')
     #doc_clean.remove('ocean')
     #doc_clean.remove('http…')
-    print("after custom noise removal")
-    print(doc_clean)
+    #print(doc_clean)
 
+    #return doc_clean
     return doc_clean
 
 def clean(doc, lemma, stop, exclude):
     stop_free = " ".join([i for i in doc.lower().split() if i not in stop])
-    #punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
+    punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
     #twitter_specific_noise_free = ''.join(ch for ch in punc_free if ch not in exclude_twitter_specific_noise)
     #it was punc_free, made it stop_free only now
-    normalized = " ".join(lemma.lemmatize(word) for word in stop_free.split())
+    normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split())
     #print(type(normalized))
     return normalized
 

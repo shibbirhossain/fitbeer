@@ -211,13 +211,13 @@ class Tweet2NLTPAPIView(GenericAPIView):
             tweet_text = serializer.data.get('tweet_text')
             bow_list = []
             bag_of_nltp_words = compute_tweet(tweet_text)
-            print("total number of words is {}".format(len(bag_of_nltp_words)))
-            for word in bag_of_nltp_words:
-                word = word.title()
-                bow_list.append(word)
-                scrap_dbpedia_ontology(word)
+            #print("total number of words is {}".format(len(bag_of_nltp_words)))
+            # for word in bag_of_nltp_words:
+            #     word = word.title()
+            #     bow_list.append(word)
+            #     scrap_dbpedia_ontology(word)
 
-            return Response({'data' : bow_list})
+            return Response({'data' : bag_of_nltp_words})
 
 """
     LDA bag of words view
