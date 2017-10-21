@@ -232,7 +232,7 @@ class Tweet2NLTPAPIView(GenericAPIView):
                 tweet_with_syno[word] = lemmas
             bag_of_nltp_words = list(set(bag_of_nltp_words))
 
-            print(syno_list)
+            #print(syno_list)
             #print(tweet_with_syno)
             #syno_list : is the list of all the synonyms that we will try to find match
             #tweet_with syno : if we find match in syno_list with the words from dbpedia abstract,

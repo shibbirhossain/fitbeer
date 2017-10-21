@@ -15,7 +15,8 @@ from gensim import corpora
 from bs4 import BeautifulSoup
 import requests
 import json
-
+from .file_util import write_to_file, read_from_file, read_list_from_file, write_line_to_file
+import os
 
 """
     @author shibbir
@@ -141,7 +142,9 @@ def clean(doc, lemma, stop, exclude):
     #print(type(normalized))
     return normalized
 
-def get_topic_modelled_words(data, bag_of_words_count):
+# we get the topic name for saving calculation
+# in file purpose
+def get_topic_modelled_words(topic_name, data, bag_of_words_count):
     doc_complete = [data]
     # we run the cleaning process here
     stop = set(stopwords.words('english'))
@@ -193,37 +196,88 @@ def get_topic_modelled_words(data, bag_of_words_count):
 
         #print(weighted_word[0])
         #print(weighted_word[1])
-
+    write_line_to_file(topic_name, topic_word_list)
     return topic_word_list
 
 def scrap_dbpedia_ontology(topic_name):
-    try:
-        url = "http://dbpedia.org/data/"+topic_name+".json"
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, "html.parser")
-        abstract_text = ""
-        #http://dbpedia.org/data/Fever.json
-        #print(soup)
-        if soup is not None:
-            first_level_resource_json_parse = 'http://dbpedia.org/resource/'+topic_name
-            json_data = json.loads(str(soup))
-            json_data = json_data[first_level_resource_json_parse]['http://dbpedia.org/ontology/abstract']
-            #['http://dbpedia.org/ontology/abstract']
+    is_file_exists = os.path.isfile(topic_name+".txt")
+    print("is file exists {}".format(is_file_exists))
+    if is_file_exists == False:
+        try:
+            url = "http://dbpedia.org/data/"+topic_name+".json"
+            response = requests.get(url)
+            soup = BeautifulSoup(response.content, "html.parser")
+            abstract_text = ""
+            #http://dbpedia.org/data/Fever.json
+            #print(soup)
+            if soup is not None:
+                first_level_resource_json_parse = 'http://dbpedia.org/resource/'+topic_name
+                json_data = json.loads(str(soup))
+                json_data = json_data[first_level_resource_json_parse]['http://dbpedia.org/ontology/abstract']
+                #['http://dbpedia.org/ontology/abstract']
 
-            for data in json_data:
-                if(data['lang'] == 'en'):
-                    #print(data['value'])
-                    abstract_text = data['value']
-                    # total_word_count = sum(len(line.split()) for line in abstract_text)
-                    # print("total number of words is {}".format(total_word_count))
+                for data in json_data:
+                    if(data['lang'] == 'en'):
+                        #print(data['value'])
+                        abstract_text = data['value']
+                        write_to_file(topic_name+".txt", abstract_text)
+                        # total_word_count = sum(len(line.split()) for line in abstract_text)
+                        # print("total number of words is {}".format(total_word_count))
+            TOPIC_WORD_TEXT = topic_name+"_lda"+".txt"
+            # we have to check here if topic_word_text file exists or not as well
+            is_topic_word_file_exists = os.path.isfile(TOPIC_WORD_TEXT)
 
-        topic_modelled_words = get_topic_modelled_words(abstract_text, 15)
-        #print(topic_modelled_words)
-        print("the topic name is {}".format(topic_name))
-        return topic_modelled_words
-    except KeyError:
-        print("nothing here keyerror")
-        return ""
+            if is_topic_word_file_exists == True:
+                topic_modelled_words = read_list_from_file(TOPIC_WORD_TEXT)
+
+                topic_modelled_word_list = topic_modelled_words.split()
+                print(topic_modelled_words)
+
+                # for word in topic_modelled_word_list:
+                #     print(word)
+                print("scrap_db if == False if condition")
+                print(topic_modelled_word_list)
+
+                return topic_modelled_word_list
+            else:
+                topic_modelled_words = get_topic_modelled_words(TOPIC_WORD_TEXT, abstract_text, 15)
+                print("scrap_db if==False else condition")
+                #print(topic_modelled_words)
+                print("the topic name is {}".format(topic_name))
+                return topic_modelled_words
+        except KeyError:
+            print("nothing here keyerror")
+            return ""
+    else:
+        abstract_text = read_from_file(topic_name+".txt")
+        #print("we are printing the abstract text here")
+        #print(abstract_text)
+        TOPIC_WORD_TEXT = topic_name+"_lda"+".txt"
+        is_words_exists_in_file = os.path.isfile(TOPIC_WORD_TEXT)
+        print("lets see if lda word file exists {}".format(is_words_exists_in_file))
+        if is_words_exists_in_file == False:
+            topic_modelled_words = get_topic_modelled_words(TOPIC_WORD_TEXT, abstract_text, 15)
+            print("vkshibbir")
+            print("scrap_db if == True(else) if condition")
+            #print(topic_modelled_words)
+            print("the topic name is {}".format(topic_name))
+            return topic_modelled_words
+        elif is_words_exists_in_file == True:
+            print("we are inside the inner most loop")
+            topic_modelled_words = read_from_file(TOPIC_WORD_TEXT)
+
+            print(topic_modelled_words)
+            topic_modelled_word_list = topic_modelled_words.split(' ')
+            print(topic_modelled_word_list)
+            topic_modelled_word_list = [i for i in topic_modelled_word_list if i != '']
+            print(topic_modelled_word_list)
+            #print("scrap_db if == True(else) else condition")
+            #print("########")
+            #for word in topic_modelled_word_list:
+                #print(word)
+            #print(topic_modelled_word_list)
+
+            return topic_modelled_word_list
 
 def get_abstract_text(topic_name):
     try:
@@ -252,9 +306,12 @@ def pass_through_dbpedia_lda(bag_of_nltp_words, syno_list, keyword_list):
     json_response_list = []
     for each_word in keyword_list:
         each_word = each_word.title()
+
+        #print("VKFILE {}".format(is_file_exists))
         lda_words = scrap_dbpedia_ontology(each_word)
 
         matched_word = set(lda_words) & set(syno_list)
+
         if(len(matched_word)):
             print("length of this is {}".format(len(matched_word)))
             json_response = {
