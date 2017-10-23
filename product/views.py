@@ -321,8 +321,9 @@ class LDAPlusDefinitionAPIView(GenericAPIView):
             for each_lda_word in lda_bag_of_words:
                 definiton_list = list(set(generate_synonym(each_lda_word)))
                 definiton_list_json = {
-                    each_lda_word : definiton_list
+                    "keyword" : each_lda_word,
+                    "def" : definiton_list
                 }
                 total_word_list_json.append(definiton_list_json)
 
-        return Response({'data' : total_word_list_json })
+        return Response({ "data" : total_word_list_json })
