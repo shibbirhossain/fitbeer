@@ -123,3 +123,14 @@ class DBPediaAbstractSerializer(serializers.Serializer):
     def validate(self, data):
         return data
 
+"""
+    @author shibbir
+    Serializer class
+    pass any keyword in the parameter
+    get the list of definition from wordnet in the response
+"""
+class WordNetDefinitonSerializer(serializers.Serializer):
+    word = serializers.CharField(max_length=100)
+
+    def validate(self, data):
+        return data

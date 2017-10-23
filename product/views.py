@@ -12,7 +12,7 @@ from . util import generate_scan_id, generate_random_arrayfill
 from . util import compute_tweet, get_topic_modelled_words, scrap_dbpedia_ontology, get_abstract_text, pass_through_dbpedia_lda
 from nltk.corpus import wordnet
 from itertools import chain
-
+from .wordnet_util import generate_synonym
 """
     @author shibbir
     email shibbirhssn@gmail.com
@@ -213,9 +213,8 @@ class Tweet2NLTPAPIView(GenericAPIView):
             tweet_with_syno = {}
             tweet_text = serializer.data.get('tweet_text')
             keyword_text = serializer.data.get('keyword')
-            #print(keyword_text)
-            keyword_list = keyword_text.split(',')
-            #print(keyword_list)
+            print(keyword_text)
+            keyword_list = k
             bow_list = []
             bag_of_nltp_words = compute_tweet(tweet_text)
             syno_list = []
@@ -232,13 +231,13 @@ class Tweet2NLTPAPIView(GenericAPIView):
                 tweet_with_syno[word] = lemmas
             bag_of_nltp_words = list(set(bag_of_nltp_words))
 
-            #print(syno_list)
+            print(syno_list)
             #print(tweet_with_syno)
             #syno_list : is the list of all the synonyms that we will try to find match
             #tweet_with syno : if we find match in syno_list with the words from dbpedia abstract,
             # we get the original tweet word from tweet_with_syno list
             try:
-                data = pass_through_dbpedia_lda(bag_of_nltp_words, syno_list, keyword_list)
+                data = pass_through_dbpedia_lda(bag_of_nltp_words, syno_list)
             except:
                 return Response({'data' : ""})
             return Response({'data' : data})
@@ -281,3 +280,20 @@ class DBPediaAbstractView(GenericAPIView):
 
 
         return Response({'data' : abstract_text})
+
+
+"""
+    definition API view class
+    
+"""
+class DefinitionAPIView(GenericAPIView):
+
+    serializer_class = serializers.WordNetDefinitonSerializer
+
+    def post(self, request):
+        serializer = serializers.WordNetDefinitonSerializer(data=request.data)
+        if(serializer.is_valid()):
+            word = serializer.data.get('word')
+            definition_list = generate_synonym(word)
+            definition_list = list(set(definition_list))
+        return Response({'data' : definition_list})
