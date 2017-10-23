@@ -8,14 +8,17 @@ def generate_synonym(keyword):
     lemmas = set(chain.from_iterable([word.lemma_names() for word in synonyms]))
     for word in lemmas:
         syno_list.append(word)
-    definition = synonyms[0].definition()
     try:
-        word_count = 10
-        lda_word_list = get_topic_modelled_words(definition, 10)
-    except:
-        word_count = word_count-1
-        lda_word_list = get_topic_modelled_words(definition, word_count)
-    for word in lda_word_list:
-      syno_list.append(word)
-
+        definition = synonyms[0].definition()
+        try:
+            word_count = 10
+            lda_word_list = get_topic_modelled_words(definition, 10)
+        except:
+            word_count = word_count-1
+            lda_word_list = get_topic_modelled_words(definition, word_count)
+        for word in lda_word_list:
+          syno_list.append(word)
+    except :
+        print("no definition for this word")
+        pass
     return syno_list
