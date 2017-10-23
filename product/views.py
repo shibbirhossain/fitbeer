@@ -299,3 +299,30 @@ class DefinitionAPIView(GenericAPIView):
             definition_list = generate_synonym(word)
             definition_list = list(set(definition_list))
         return Response({'data' : definition_list})
+
+"""
+    lda words with definition API view class
+    
+"""
+class LDAPlusDefinitionAPIView(GenericAPIView):
+
+    serializer_class = serializers.LDAPlusSynoSerializer
+
+    def post(self, request):
+        serializer = serializers.WordNetDefinitonSerializer(data=request.data)
+        if(serializer.is_valid()):
+            topic_name = serializer.data.get('word').title()
+
+            lda_bag_of_words = scrap_dbpedia_ontology(topic_name)
+            print(lda_bag_of_words)
+            # definition_list = generate_synonym(word)
+            # definition_list = list(set(definition_list))
+            total_word_list_json = []
+            for each_lda_word in lda_bag_of_words:
+                definiton_list = list(set(generate_synonym(each_lda_word)))
+                definiton_list_json = {
+                    each_lda_word : definiton_list
+                }
+                total_word_list_json.append(definiton_list_json)
+
+        return Response({'data' : total_word_list_json })

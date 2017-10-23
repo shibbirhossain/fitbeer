@@ -326,7 +326,7 @@ def pass_through_dbpedia_lda(bag_of_nltp_words, syno_list, keyword_list):
 
 
         #matched_word = set(lda_words) & set(syno_list)
-        matched_word = set(lda_syno_list) & set(syno_list)
+        matched_word = set(bag_of_nltp_words) & set(syno_list)
 
         if(len(matched_word)):
             print("length of this is {}".format(len(matched_word)))

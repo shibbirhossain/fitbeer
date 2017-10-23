@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^lda/', views.DBPediaText2LDAAPIView.as_view()),
     url(r'^abstract/', views.DBPediaAbstractView.as_view()),
     url(r'^definition/',views.DefinitionAPIView.as_view()),
+    url(r'^ldadef/', views.LDAPlusDefinitionAPIView.as_view()),
 ]
