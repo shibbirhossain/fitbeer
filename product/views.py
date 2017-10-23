@@ -213,8 +213,9 @@ class Tweet2NLTPAPIView(GenericAPIView):
             tweet_with_syno = {}
             tweet_text = serializer.data.get('tweet_text')
             keyword_text = serializer.data.get('keyword')
-            print(keyword_text)
-            keyword_list = k
+            #print(keyword_text)
+            keyword_list = keyword_text.split(',')
+            #print(keyword_list)
             bow_list = []
             bag_of_nltp_words = compute_tweet(tweet_text)
             syno_list = []
@@ -231,13 +232,13 @@ class Tweet2NLTPAPIView(GenericAPIView):
                 tweet_with_syno[word] = lemmas
             bag_of_nltp_words = list(set(bag_of_nltp_words))
 
-            print(syno_list)
+            #print(syno_list)
             #print(tweet_with_syno)
             #syno_list : is the list of all the synonyms that we will try to find match
             #tweet_with syno : if we find match in syno_list with the words from dbpedia abstract,
             # we get the original tweet word from tweet_with_syno list
             try:
-                data = pass_through_dbpedia_lda(bag_of_nltp_words, syno_list)
+                data = pass_through_dbpedia_lda(bag_of_nltp_words, syno_list, keyword_list)
             except:
                 return Response({'data' : ""})
             return Response({'data' : data})
