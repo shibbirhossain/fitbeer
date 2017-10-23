@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43f186bb-c464-4d04-b570-774215907d54" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Bacteria.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Bacteria_lda.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Coffee.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Coffee_lda.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Fever.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Fever_lda.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Virus.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Virus_lda.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/product/serializers.py" afterPath="$PROJECT_DIR$/product/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/product/urls.py" afterPath="$PROJECT_DIR$/product/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/product/views.py" afterPath="$PROJECT_DIR$/product/views.py" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,14 +26,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/product/views.py">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="297" column="54" lean-forward="false" selection-start-line="297" selection-start-column="54" selection-end-line="297" selection-end-column="54" />
-              <folding>
-                <element signature="e#0#40#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="15">
+              <caret line="1" column="5" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -61,7 +65,6 @@
         <option value="$PROJECT_DIR$/fitbeer/urls.py" />
         <option value="$PROJECT_DIR$/fitbeer/.db_config.py" />
         <option value="$PROJECT_DIR$/fitbeer/settings.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/fitbeer/db_config.py" />
         <option value="$PROJECT_DIR$/product/models.py" />
         <option value="$PROJECT_DIR$/readme.md" />
@@ -72,6 +75,7 @@
         <option value="$PROJECT_DIR$/product/wordnet_util.py" />
         <option value="$PROJECT_DIR$/product/urls.py" />
         <option value="$PROJECT_DIR$/product/views.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -791,14 +795,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="21" selection-end-line="0" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/product/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1076,8 +1072,69 @@
         <state relative-caret-position="480">
           <caret line="297" column="54" lean-forward="false" selection-start-line="297" selection-start-column="54" selection-end-line="297" selection-end-column="54" />
           <folding>
-            <element signature="e#0#40#0" expanded="true" />
+            <marker date="1508737040000" expanded="true" signature="0:674" ph="import ..." />
+            <marker date="1508737040000" expanded="true" signature="675:808" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1508737040000" expanded="true" signature="847:2399" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="992:1488" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="1074:1322" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="1100:1280" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="1518:2399" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="1623:2399" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="1959:2313" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="2442:4238" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="2540:3193" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="2683:3009" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="2719:2947" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="3223:4238" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="3333:4238" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="3684:4158" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="4276:5835" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="4370:4858" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="4459:4810" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="4487:4636" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="4888:5835" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="4993:5731" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="5323:5646" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="5881:6745" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6012:6745" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6026:6434" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6195:6432" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6273:6418" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6471:6745" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6501:6743" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6580:6729" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="6746:7128" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="7170:7316" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="7211:7316" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="7318:7352" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1508737040000" expanded="true" signature="7393:9153" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="7492:7550" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="7580:9153" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="7689:9153" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="8107:8561" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="8280:8404" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="8665:8946" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="9155:9188" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1508737040000" expanded="true" signature="9234:9711" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="9323:9711" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="9433:9711" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="9714:9747" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1508737040000" expanded="true" signature="9790:10176" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="9882:10176" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="9996:10124" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="10179:10221" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1508737040000" expanded="true" signature="10262:10678" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="10355:10678" ph="..." />
+            <marker date="1508737040000" expanded="true" signature="10469:10626" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="5" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
