@@ -1,6 +1,7 @@
 import datetime
 import random
 import time
+from itertools import chain
 
 from django.core.serializers import json
 from nltk.corpus import stopwords
@@ -17,6 +18,8 @@ import requests
 import json
 from .file_util import write_to_file, read_from_file, read_list_from_file, write_line_to_file
 import os
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 """
     @author shibbir
@@ -306,11 +309,24 @@ def pass_through_dbpedia_lda(bag_of_nltp_words, syno_list, keyword_list):
     json_response_list = []
     for each_word in keyword_list:
         each_word = each_word.title()
-
         #print("VKFILE {}".format(is_file_exists))
         lda_words = scrap_dbpedia_ontology(each_word)
 
-        matched_word = set(lda_words) & set(syno_list)
+        print("the lda words areeeee {}".format(lda_words))
+        print("the syno owrds aeer {}".format(syno_list))
+
+        lda_syno_list = []
+
+        for word in lda_words:
+            synonyms = wordnet.synsets(word)
+            lemmas = set(chain.from_iterable([word.lemma_names() for word in synonyms]))
+            print(lemmas)
+            for word in lemmas:
+                lda_syno_list.append(word)
+
+
+        #matched_word = set(lda_words) & set(syno_list)
+        matched_word = set(lda_syno_list) & set(syno_list)
 
         if(len(matched_word)):
             print("length of this is {}".format(len(matched_word)))

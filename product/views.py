@@ -13,6 +13,7 @@ from . util import compute_tweet, get_topic_modelled_words, scrap_dbpedia_ontolo
 from nltk.corpus import wordnet
 from itertools import chain
 from .wordnet_util import generate_synonym
+
 """
     @author shibbir
     email shibbirhssn@gmail.com
