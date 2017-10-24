@@ -148,3 +148,9 @@ class LDAPlusSynoSerializer(serializers.Serializer):
 
     def validate(self, data):
         return data
+"""
+    Batch tweet and keyword serializer
+"""
+class BatchTweetWithKeywordSerializer(serializers.Serializer):
+    tweet_list = serializers.ListField()
+    keywords = serializers.ListField()

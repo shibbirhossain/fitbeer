@@ -275,7 +275,7 @@ class DBPediaAbstractView(GenericAPIView):
         serializer = serializers.DBPediaAbstractSerializer(data=request.data)
 
         if(serializer.is_valid()):
-            topic = serializer.data.get('topic')
+            topic = serializer.data.get('topic').title()
             print(topic)
 
             abstract_text = get_abstract_text(topic)
@@ -327,3 +327,22 @@ class LDAPlusDefinitionAPIView(GenericAPIView):
                 total_word_list_json.append(definiton_list_json)
 
         return Response({ "data" : total_word_list_json })
+
+
+"""
+    batch tweet and keyword serializer apiview
+"""
+
+class BatchTweetWithKeywordAPIView(GenericAPIView):
+
+    serializer_class = serializers.BatchTweetWithKeywordSerializer
+
+    def post(self, request):
+        serializer = serializers.BatchTweetWithKeywordSerializer(data=request.data)
+
+        if serializer.is_valid():
+            tweet_list = serializer.data.get('tweet_list')
+            keywords = serializer.data.get('keywords')
+            print(keywords)
+
+        return Response({ "data" : "empty"})
